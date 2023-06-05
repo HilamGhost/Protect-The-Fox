@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
@@ -41,6 +42,8 @@ public class GameManager : MonoBehaviour
     public bool IsGameOver => isGameOver;
     protected void Awake()
     {
+        Time.timeScale = 1;
+        
         if (instance == null)
         {
             instance = this;
@@ -63,7 +66,7 @@ public class GameManager : MonoBehaviour
         if (lives <= 0)
         {
             gameOverScreen.SetActive(true);
-            Debug.Break();
+            Time.timeScale = 0;
         }
         ChangeUI();
         if (NoCannonsLeft)
@@ -129,4 +132,7 @@ public class GameManager : MonoBehaviour
         isSpawning = false;
     }
     private bool NoCannonsLeft => cannonsSpawned.Count <= 0;
+    
+    public void RestartGame() => SceneManager.LoadScene(1);
+    public void ExitGame() => SceneManager.LoadScene(0);
 }
